@@ -5,8 +5,10 @@ import EstudosStramAPI.dominio.ListAnimes;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class StreamTeste01 {
+public class StreamTeste02 {
 
     private static List<ListAnimes> listOfAnimes = new ArrayList<>(List.of(
             new ListAnimes("Blade of the Immortal", 8.99),
@@ -20,26 +22,15 @@ public class StreamTeste01 {
 
     public static void main(String[] args) {
 
-        // Ordenando por títulos
-        listOfAnimes.sort(Comparator.comparing(ListAnimes::getTitle));
+        List<String> titles = listOfAnimes.stream()
+                .sorted(Comparator.comparing(ListAnimes::getTitle))
+                .filter(la -> la.getPrice() <= 4)
+                .limit(3)
+                .map(ListAnimes::getTitle)
+                .collect(Collectors.toList());
 
-        // Recurar os títulos com preços abaixo de 4
-        List<String> titles = new ArrayList<>();
-        for (ListAnimes Anime : listOfAnimes) {
-            if (Anime.getPrice() <= 4) {
-                titles.add(Anime.getTitle());
-            }
-            if (titles.size() >= 3){
-                break;
-            }
-        }
-
-        //System.out.println(listOfAnimes);
         System.out.println(titles);
 
-
-
     }
-
 
 }
